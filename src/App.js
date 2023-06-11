@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import NoteList from './components/NoteList';
 import NoteEditor from './components/NoteEditor';
+import HomePage from './components/HomePage';
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +47,37 @@ const EditorContainer = styled.div`
   margin-top: 20px;
 `;
 
-const App = () => {
+const NavIcon = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+`;
+
+const DropdownMenu = styled.ul`
+  list-style: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  display: ${props => (props.isOpen ? 'block' : 'none')};
+  z-index: 100;
+`;
+
+
+const DropdownItem = styled.li`
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
+const NotesPage = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
 
@@ -70,12 +105,8 @@ const App = () => {
     });
   };
 
-
-
-  
   return (
-    <Container>
-      <Header>SullDog's Note Taking App</Header>
+    <>
       <Button onClick={handleNewNote}>New Note</Button>
       <EditorContainer>
         {selectedNote ? (
@@ -88,8 +119,44 @@ const App = () => {
           <NoteList notes={notes} onNoteClick={setSelectedNote} />
         )}
       </EditorContainer>
+    </>
+  );
+};
+
+const App = () => {
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  return (
+    <Container>
+      <Router>
+        <Header>Note App</Header>
+        <NavIcon onClick={toggleDropdown}>
+          <i className="fas fa-bars"></i>
+        </NavIcon>
+        <DropdownMenu isOpen={isDropdownOpen}>
+          <DropdownItem>
+            <Link to="/" onClick={toggleDropdown}>
+              Home
+            </Link>
+          </DropdownItem>
+          <DropdownItem>
+            <Link to="/notes" onClick={toggleDropdown}>
+              Notes
+            </Link>
+          </DropdownItem>
+        </DropdownMenu>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/notes" element={<NotesPage />} />
+        </Routes>
+      </Router>
     </Container>
   );
 };
 
 export default App;
+

@@ -36,3 +36,56 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* App.css */
+
+/* General styles for the application */
+.Container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.Header {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.NavIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Dropdown menu styles */
+.DropdownMenu {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  display: none;
+  z-index: 1000;
+}
+
+.DropdownMenu.isOpen {
+  display: block;
+}
+
+.DropdownItem {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.DropdownItem:hover {
+  background-color: #f1f1f1;
+}
+
+.DropdownItem a {
+  text-decoration: none;
+  color: inherit;
+}
